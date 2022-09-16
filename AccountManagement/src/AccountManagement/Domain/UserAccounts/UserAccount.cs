@@ -39,7 +39,13 @@ public class UserAccount : BaseEntity
 
     public void Deposit(decimal depositAmount)
     {
-        Balance = Balance.Add(MonetaryAmount.Of(depositAmount));
+        var newBalance =  Balance.Add(MonetaryAmount.Of(depositAmount));
+        if (newBalance > MonetaryAmount.Of(10000))
+            throw new FluentValidation.ValidationException(
+                "You can not deposit more than $10,000 per transaction.");
+
+        Balance = newBalance;
+        
         QueueDomainEvent(new UserAccountUpdated(){ Id = Id });
     }
 
@@ -49,8 +55,8 @@ public class UserAccount : BaseEntity
         if (newBalance < Balance.MultiplyByPercent(new Percent(10)))
             throw new FluentValidation.ValidationException(
                 "You can not withdraw more than 90% of your balance in one transaction.");
-        
-        Balance = Balance.Subtract(MonetaryAmount.Of(depositAmount));
+
+        Balance = newBalance;
         QueueDomainEvent(new UserAccountUpdated(){ Id = Id });
     }
     

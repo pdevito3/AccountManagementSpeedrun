@@ -66,6 +66,19 @@ public class UpdateUserAccountTests
     }
     
     [Test]
+    public void can_not_deposit_more_than_10000()
+    {
+        // Arrange
+        var fakeUserAccount = FakeUserAccount.Generate();
+        
+        // Act
+        var act = () => fakeUserAccount.Deposit(10001);
+
+        // Assert
+        act.Should().Throw<FluentValidation.ValidationException>();
+    }
+    
+    [Test]
     public void can_not_withdraw_more_than_90_percent()
     {
         // Arrange
