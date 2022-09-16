@@ -4,7 +4,7 @@ using AccountManagement.Domain.UserAccounts.Dtos;
 using FluentValidation;
 using MonetaryAmounts;
 
-public sealed class UserAccountForCreationDtoValidator: UserAccountForManipulationDtoValidator<UserAccountForCreationDto>
+public sealed class UserAccountForCreationDtoValidator :  AbstractValidator<UserAccountForCreationDto>
 {
     public UserAccountForCreationDtoValidator()
     {
@@ -14,8 +14,6 @@ public sealed class UserAccountForCreationDtoValidator: UserAccountForManipulati
     }
     private static bool BeAtLeastOneHundredDollars(decimal balance)
     {
-        var one = new MonetaryAmount(balance);
-        var two = new MonetaryAmount(100);
         return new MonetaryAmount(balance) >= new MonetaryAmount(100);
     }
 }

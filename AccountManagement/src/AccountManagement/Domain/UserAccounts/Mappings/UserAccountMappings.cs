@@ -10,13 +10,8 @@ public sealed class UserAccountMappings : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<UserAccountDto, UserAccount>();
-            // .Map(x => x.Balance, y => new MonetaryAmount(y.Balance));
-            config.NewConfig<UserAccount, UserAccountDto>();
-                // .MapWith(x => x.Balance.Amount);
-            // .Map(x => x.Balance, y => y.Balance.Amount);
+        config.NewConfig<UserAccount, UserAccountDto>();
         config.NewConfig<UserAccountForCreationDto, UserAccount>()
-            .TwoWays();
-        config.NewConfig<UserAccountForUpdateDto, UserAccount>()
             .TwoWays();
     }
 }
