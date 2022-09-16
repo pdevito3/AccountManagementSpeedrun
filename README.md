@@ -30,6 +30,10 @@ To use the api:
 4. From the `AccountManagement/src/AccountManagement` directory, run the api: `dotnet run`
 5. Go to  `https://localhost:5375/swagger/index.html` to use swagger
 
+## Tests
+> **Note** 
+> The value object broke a most of the assoicated functional tests and a unit test. TODO investigation
+
 ## Running Integration Tests
 Make sure you have docker installed to run integration tests.
 
