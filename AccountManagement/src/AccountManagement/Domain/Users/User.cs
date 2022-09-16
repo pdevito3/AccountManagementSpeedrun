@@ -9,6 +9,7 @@ using FluentValidation;
 using System.Text.Json.Serialization;
 using System.Runtime.Serialization;
 using Sieve.Attributes;
+using UserAccounts;
 
 public class User : BaseEntity
 {
@@ -30,6 +31,10 @@ public class User : BaseEntity
     [JsonIgnore]
     [IgnoreDataMember]
     public virtual ICollection<UserRole> Roles { get; private set; } = new List<UserRole>();
+    
+    [JsonIgnore]
+    [IgnoreDataMember]
+    public virtual ICollection<UserAccount> Accounts { get; private set; }
 
 
     public static User Create(UserForCreationDto userForCreationDto)

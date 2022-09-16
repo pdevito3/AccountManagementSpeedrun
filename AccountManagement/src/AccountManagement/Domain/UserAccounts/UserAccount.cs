@@ -11,12 +11,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using Sieve.Attributes;
 using AccountManagement.Domain.Users;
-
+using MonetaryAmounts;
 
 public class UserAccount : BaseEntity
 {
     [Sieve(CanFilter = true, CanSort = true)]
-    public virtual decimal Balance { get; private set; }
+    public virtual MonetaryAmount Balance { get; private set; }
 
     [JsonIgnore]
     [IgnoreDataMember]
@@ -29,19 +29,22 @@ public class UserAccount : BaseEntity
 
         var newUserAccount = new UserAccount();
 
-        newUserAccount.Balance = userAccountForCreationDto.Balance;
+        newUserAccount.Balance = new MonetaryAmount(userAccountForCreationDto.Balance);
 
         newUserAccount.QueueDomainEvent(new UserAccountCreated(){ UserAccount = newUserAccount });
         
         return newUserAccount;
     }
 
-    public void Update(UserAccountForUpdateDto userAccountForUpdateDto)
+    public void Deposit(decimal depositAmount)
     {
-        new UserAccountForUpdateDtoValidator().ValidateAndThrow(userAccountForUpdateDto);
+        Balance +=  new MonetaryAmount(depositAmount);
+        QueueDomainEvent(new UserAccountUpdated(){ Id = Id });
+    }
 
-        Balance = userAccountForUpdateDto.Balance;
-
+    public void Withdraw(decimal depositAmount)
+    {
+        Balance -=  new MonetaryAmount(depositAmount);
         QueueDomainEvent(new UserAccountUpdated(){ Id = Id });
     }
     

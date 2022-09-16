@@ -22,14 +22,13 @@ public class UpdateUserAccountTests
     {
         // Arrange
         var fakeUserAccount = FakeUserAccount.Generate();
-        var updatedUserAccount = new FakeUserAccountForUpdateDto().Generate();
+        var startingAmount = fakeUserAccount.Balance.Amount;
         
         // Act
-        fakeUserAccount.Update(updatedUserAccount);
+        fakeUserAccount.Deposit(100);
 
         // Assert
-        fakeUserAccount.Should().BeEquivalentTo(updatedUserAccount, options =>
-            options.ExcludingMissingMembers());
+        fakeUserAccount.Balance.Amount.Should().Be(100 + startingAmount);
     }
     
     [Test]
@@ -37,11 +36,10 @@ public class UpdateUserAccountTests
     {
         // Arrange
         var fakeUserAccount = FakeUserAccount.Generate();
-        var updatedUserAccount = new FakeUserAccountForUpdateDto().Generate();
         fakeUserAccount.DomainEvents.Clear();
         
         // Act
-        fakeUserAccount.Update(updatedUserAccount);
+        fakeUserAccount.Deposit(100);
 
         // Assert
         fakeUserAccount.DomainEvents.Count.Should().Be(1);

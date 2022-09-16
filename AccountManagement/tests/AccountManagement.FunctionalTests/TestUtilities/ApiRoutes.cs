@@ -13,7 +13,8 @@ public class ApiRoutes
         public const string GetRecord = $"{Base}/userAccounts/{Id}";
         public const string Create = $"{Base}/userAccounts";
         public const string Delete = $"{Base}/userAccounts/{Id}";
-        public const string Put = $"{Base}/userAccounts/{Id}";
+        public const string MakeDeposit = $"{Base}/userAccounts/{Id}/deposit";
+        public const string MakeWithdrawl = $"{Base}/userAccounts/{Id}/withdrawl";
         public const string CreateBatch = $"{Base}/userAccounts/batch";
     }
 

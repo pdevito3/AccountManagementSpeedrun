@@ -16,15 +16,14 @@ public class UpdateUserAccountRecordTests : TestBase
     {
         // Arrange
         var fakeUserAccount = FakeUserAccount.Generate(new FakeUserAccountForCreationDto().Generate());
-        var updatedUserAccountDto = new FakeUserAccountForUpdateDto { }.Generate();
 
         var user = await AddNewSuperAdmin();
         _client.AddAuth(user.Identifier);
         await InsertAsync(fakeUserAccount);
 
         // Act
-        var route = ApiRoutes.UserAccounts.Put.Replace(ApiRoutes.UserAccounts.Id, fakeUserAccount.Id.ToString());
-        var result = await _client.PutJsonRequestAsync(route, updatedUserAccountDto);
+        var route = ApiRoutes.UserAccounts.MakeDeposit.Replace(ApiRoutes.UserAccounts.Id, fakeUserAccount.Id.ToString());
+        var result = await _client.PutJsonRequestAsync(route, 100);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -35,13 +34,12 @@ public class UpdateUserAccountRecordTests : TestBase
     {
         // Arrange
         var fakeUserAccount = FakeUserAccount.Generate(new FakeUserAccountForCreationDto().Generate());
-        var updatedUserAccountDto = new FakeUserAccountForUpdateDto { }.Generate();
 
         await InsertAsync(fakeUserAccount);
 
         // Act
-        var route = ApiRoutes.UserAccounts.Put.Replace(ApiRoutes.UserAccounts.Id, fakeUserAccount.Id.ToString());
-        var result = await _client.PutJsonRequestAsync(route, updatedUserAccountDto);
+        var route = ApiRoutes.UserAccounts.MakeDeposit.Replace(ApiRoutes.UserAccounts.Id, fakeUserAccount.Id.ToString());
+        var result = await _client.PutJsonRequestAsync(route, 100);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -52,14 +50,13 @@ public class UpdateUserAccountRecordTests : TestBase
     {
         // Arrange
         var fakeUserAccount = FakeUserAccount.Generate(new FakeUserAccountForCreationDto().Generate());
-        var updatedUserAccountDto = new FakeUserAccountForUpdateDto { }.Generate();
         _client.AddAuth();
 
         await InsertAsync(fakeUserAccount);
 
         // Act
-        var route = ApiRoutes.UserAccounts.Put.Replace(ApiRoutes.UserAccounts.Id, fakeUserAccount.Id.ToString());
-        var result = await _client.PutJsonRequestAsync(route, updatedUserAccountDto);
+        var route = ApiRoutes.UserAccounts.MakeDeposit.Replace(ApiRoutes.UserAccounts.Id, fakeUserAccount.Id.ToString());
+        var result = await _client.PutJsonRequestAsync(route, 100);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Forbidden);

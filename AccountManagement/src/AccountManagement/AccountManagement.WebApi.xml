@@ -135,11 +135,21 @@
             <response code="403">The required permissions to access this resource were not present in the given request.</response>
             <response code="500">There was an error on the server while creating the UserAccount.</response>
         </member>
-        <member name="M:AccountManagement.Controllers.v1.UserAccountsController.UpdateUserAccount(System.Guid,AccountManagement.Domain.UserAccounts.Dtos.UserAccountForUpdateDto)">
+        <member name="M:AccountManagement.Controllers.v1.UserAccountsController.MakeDeposit(System.Guid,System.Decimal)">
             <summary>
-            Updates an entire existing UserAccount.
+            Make a deposit to an Account.
             </summary>
-            <response code="204">UserAccount updated.</response>
+            <response code="204">Deposit successful.</response>
+            <response code="400">UserAccount has missing/invalid values.</response>
+            <response code="401">This request was not able to be authenticated.</response>
+            <response code="403">The required permissions to access this resource were not present in the given request.</response>
+            <response code="500">There was an error on the server while creating the UserAccount.</response>
+        </member>
+        <member name="M:AccountManagement.Controllers.v1.UserAccountsController.MakeWithdrawal(System.Guid,System.Decimal)">
+            <summary>
+            Make a withdrawal from an Account.
+            </summary>
+            <response code="204">Withdrawal successful.</response>
             <response code="400">UserAccount has missing/invalid values.</response>
             <response code="401">This request was not able to be authenticated.</response>
             <response code="403">The required permissions to access this resource were not present in the given request.</response>

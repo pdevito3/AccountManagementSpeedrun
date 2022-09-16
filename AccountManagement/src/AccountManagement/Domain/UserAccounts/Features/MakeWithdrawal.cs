@@ -11,17 +11,17 @@ using HeimGuard;
 using MapsterMapper;
 using MediatR;
 
-public static class UpdateUserAccount
+public static class MakeWithdrawal
 {
     public sealed class Command : IRequest<bool>
     {
         public readonly Guid Id;
-        public readonly UserAccountForUpdateDto UserAccountToUpdate;
+        public readonly decimal DepositAmount;
 
-        public Command(Guid userAccount, UserAccountForUpdateDto newUserAccountData)
+        public Command(Guid userAccount, decimal depositAmount)
         {
             Id = userAccount;
-            UserAccountToUpdate = newUserAccountData;
+            DepositAmount = depositAmount;
         }
     }
 
@@ -40,11 +40,11 @@ public static class UpdateUserAccount
 
         public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
         {
-            await _heimGuard.MustHavePermission<ForbiddenAccessException>(Permissions.CanUpdateUserAccount);
+            await _heimGuard.MustHavePermission<ForbiddenAccessException>(Permissions.CanMakeWithdrawl);
 
             var userAccountToUpdate = await _userAccountRepository.GetById(request.Id, cancellationToken: cancellationToken);
 
-            userAccountToUpdate.Update(request.UserAccountToUpdate);
+            userAccountToUpdate.Withdraw(request.DepositAmount);
             _userAccountRepository.Update(userAccountToUpdate);
             return await _unitOfWork.CommitChanges(cancellationToken) >= 1;
         }

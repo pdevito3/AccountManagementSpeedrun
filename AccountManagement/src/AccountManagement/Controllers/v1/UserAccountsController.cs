@@ -143,9 +143,9 @@ public sealed class UserAccountsController: ControllerBase
 
 
     /// <summary>
-    /// Updates an entire existing UserAccount.
+    /// Make a deposit to an Account.
     /// </summary>
-    /// <response code="204">UserAccount updated.</response>
+    /// <response code="204">Deposit successful.</response>
     /// <response code="400">UserAccount has missing/invalid values.</response>
     /// <response code="401">This request was not able to be authenticated.</response>
     /// <response code="403">The required permissions to access this resource were not present in the given request.</response>
@@ -157,10 +157,35 @@ public sealed class UserAccountsController: ControllerBase
     [ProducesResponseType(500)]
     [Authorize]
     [Produces("application/json")]
-    [HttpPut("{id:guid}", Name = "UpdateUserAccount")]
-    public async Task<IActionResult> UpdateUserAccount(Guid id, UserAccountForUpdateDto userAccount)
+    [HttpPut("{accountId:guid}/deposit/{amount:decimal}", Name = "MakeDeposit")]
+    public async Task<IActionResult> MakeDeposit(Guid accountId, decimal amount)
     {
-        var command = new UpdateUserAccount.Command(id, userAccount);
+        var command = new MakeDeposit.Command(accountId, amount);
+        await _mediator.Send(command);
+
+        return NoContent();
+    }
+
+
+    /// <summary>
+    /// Make a withdrawal from an Account.
+    /// </summary>
+    /// <response code="204">Withdrawal successful.</response>
+    /// <response code="400">UserAccount has missing/invalid values.</response>
+    /// <response code="401">This request was not able to be authenticated.</response>
+    /// <response code="403">The required permissions to access this resource were not present in the given request.</response>
+    /// <response code="500">There was an error on the server while creating the UserAccount.</response>
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(500)]
+    [Authorize]
+    [Produces("application/json")]
+    [HttpPut("{accountId:guid}/withdraw/{amount:decimal}", Name = "MakeWithdrawal")]
+    public async Task<IActionResult> MakeWithdrawal(Guid accountId, decimal amount)
+    {
+        var command = new MakeWithdrawal.Command(accountId, amount);
         await _mediator.Send(command);
 
         return NoContent();

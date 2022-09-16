@@ -6,7 +6,8 @@ public static class Permissions
 {
     // Permissions marker - do not delete this comment
     public const string CanDeleteUserAccount = nameof(CanDeleteUserAccount);
-    public const string CanUpdateUserAccount = nameof(CanUpdateUserAccount);
+    public const string CanMakeDeposit = nameof(CanMakeDeposit);
+    public const string CanMakeWithdrawl = nameof(CanMakeWithdrawl);
     public const string CanAddUserAccount = nameof(CanAddUserAccount);
     public const string CanReadBankingSystem = nameof(CanReadBankingSystem);
     public const string CanDeleteUser = nameof(CanDeleteUser);

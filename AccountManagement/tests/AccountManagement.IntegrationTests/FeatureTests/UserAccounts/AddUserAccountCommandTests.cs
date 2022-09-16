@@ -9,6 +9,7 @@ using AccountManagement.Domain.UserAccounts.Features;
 using static TestFixture;
 using SharedKernel.Exceptions;
 using AccountManagement.SharedTestHelpers.Fakes.User;
+using Domain.MonetaryAmounts;
 
 public class AddUserAccountCommandTests : TestBase
 {
@@ -25,9 +26,7 @@ public class AddUserAccountCommandTests : TestBase
             .FirstOrDefaultAsync(u => u.Id == userAccountReturned.Id));
 
         // Assert
-        userAccountReturned.Should().BeEquivalentTo(fakeUserAccountOne, options =>
-            options.ExcludingMissingMembers());
-        userAccountCreated.Should().BeEquivalentTo(fakeUserAccountOne, options =>
-            options.ExcludingMissingMembers());
+        userAccountReturned.Balance.Should().Be(MonetaryAmount.Of(fakeUserAccountOne.Balance).Amount);
+        userAccountCreated.Balance.Should().Be(MonetaryAmount.Of(fakeUserAccountOne.Balance));
     }
 }

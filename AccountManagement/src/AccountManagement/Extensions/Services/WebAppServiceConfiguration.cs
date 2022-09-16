@@ -43,6 +43,7 @@ public static class WebAppServiceConfiguration
         if(builder.Environment.EnvironmentName != Consts.Testing.FunctionalTestingEnvName)
         {
             var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
+            typeAdapterConfig.Default.NameMatchingStrategy(NameMatchingStrategy.Flexible);
             typeAdapterConfig.Scan(Assembly.GetExecutingAssembly());
             var mapperConfig = new Mapper(typeAdapterConfig);
             builder.Services.AddSingleton<IMapper>(mapperConfig);

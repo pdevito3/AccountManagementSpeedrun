@@ -12,6 +12,7 @@ public class MonetaryAmount : ValueObject
     public static readonly MonetaryAmount Zero = new MonetaryAmount(0M);
 
     public MonetaryAmount(decimal amount) => Amount = decimal.Round(amount,2,MidpointRounding.ToEven);
+    public static MonetaryAmount Of(decimal value) => new MonetaryAmount(value);
 
     public MonetaryAmount Add(MonetaryAmount other) => new MonetaryAmount(Amount + other.Amount);
 

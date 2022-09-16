@@ -25,7 +25,9 @@ public class UserAccountQueryTests : TestBase
 
         // Assert
         userAccount.Should().BeEquivalentTo(fakeUserAccountOne, options =>
-            options.ExcludingMissingMembers());
+            options.ExcludingMissingMembers()
+                .Excluding(x => x.Balance));
+        userAccount.Balance.Should().Be(fakeUserAccountOne.Balance.Amount);
     }
 
     [Test]
