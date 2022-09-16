@@ -10,7 +10,7 @@ using HeimGuard;
 using MapsterMapper;
 using MediatR;
 
-public static class AddUserAccount
+public static class OpenUserAccount
 {
     public sealed class Command : IRequest<UserAccountDto>
     {

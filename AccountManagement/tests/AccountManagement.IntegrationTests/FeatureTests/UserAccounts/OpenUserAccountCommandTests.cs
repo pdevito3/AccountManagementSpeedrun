@@ -11,7 +11,7 @@ using SharedKernel.Exceptions;
 using AccountManagement.SharedTestHelpers.Fakes.User;
 using Domain.MonetaryAmounts;
 
-public class AddUserAccountCommandTests : TestBase
+public class OpenUserAccountCommandTests : TestBase
 {
     [Test]
     public async Task can_add_new_useraccount_to_db()
@@ -20,7 +20,7 @@ public class AddUserAccountCommandTests : TestBase
         var fakeUserAccountOne = new FakeUserAccountForCreationDto().Generate();
 
         // Act
-        var command = new AddUserAccount.Command(fakeUserAccountOne);
+        var command = new OpenUserAccount.Command(fakeUserAccountOne);
         var userAccountReturned = await SendAsync(command);
         var userAccountCreated = await ExecuteDbContextAsync(db => db.UserAccounts
             .FirstOrDefaultAsync(u => u.Id == userAccountReturned.Id));

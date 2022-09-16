@@ -133,7 +133,7 @@ public sealed class UserAccountsController: ControllerBase
     [HttpPost(Name = "AddUserAccount")]
     public async Task<ActionResult<UserAccountDto>> AddUserAccount([FromBody]UserAccountForCreationDto userAccountForCreation)
     {
-        var command = new AddUserAccount.Command(userAccountForCreation);
+        var command = new OpenUserAccount.Command(userAccountForCreation);
         var commandResponse = await _mediator.Send(command);
 
         return CreatedAtRoute("GetUserAccount",
