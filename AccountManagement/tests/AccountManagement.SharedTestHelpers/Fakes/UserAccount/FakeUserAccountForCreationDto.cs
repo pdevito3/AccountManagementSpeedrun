@@ -9,8 +9,8 @@ public class FakeUserAccountForCreationDto : AutoFaker<UserAccountForCreationDto
 {
     public FakeUserAccountForCreationDto()
     {
+        RuleFor(u => u.Balance, u => u.Random.Number(100, 100000));
         // if you want default values on any of your properties (e.g. an int between a certain range or a date always in the past), you can add `RuleFor` lines describing those defaults
-        //RuleFor(u => u.ExampleIntProperty, u => u.Random.Number(50, 100000));
         //RuleFor(u => u.ExampleDateProperty, u => u.Date.Past());
     }
 }
