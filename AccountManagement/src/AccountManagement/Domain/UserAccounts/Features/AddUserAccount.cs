@@ -41,7 +41,7 @@ public static class AddUserAccount
         {
             await _heimGuard.MustHavePermission<ForbiddenAccessException>(Permissions.CanAddUserAccount);
 
-            var userAccount = UserAccount.Create(request.UserAccountToAdd);
+            var userAccount = UserAccount.Open(request.UserAccountToAdd);
             await _userAccountRepository.Add(userAccount, cancellationToken);
 
             await _unitOfWork.CommitChanges(cancellationToken);

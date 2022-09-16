@@ -12,6 +12,7 @@ using System.Runtime.Serialization;
 using Sieve.Attributes;
 using AccountManagement.Domain.Users;
 using MonetaryAmounts;
+using Percentages;
 
 public class UserAccount : BaseEntity
 {
@@ -23,7 +24,7 @@ public class UserAccount : BaseEntity
     public virtual User User { get; private set; }
 
 
-    public static UserAccount Create(UserAccountForCreationDto userAccountForCreationDto)
+    public static UserAccount Open(UserAccountForCreationDto userAccountForCreationDto)
     {
         new UserAccountForCreationDtoValidator().ValidateAndThrow(userAccountForCreationDto);
 
@@ -38,13 +39,18 @@ public class UserAccount : BaseEntity
 
     public void Deposit(decimal depositAmount)
     {
-        Balance +=  new MonetaryAmount(depositAmount);
+        Balance = Balance.Add(MonetaryAmount.Of(depositAmount));
         QueueDomainEvent(new UserAccountUpdated(){ Id = Id });
     }
 
     public void Withdraw(decimal depositAmount)
     {
-        Balance -=  new MonetaryAmount(depositAmount);
+        var newBalance =  Balance.Subtract(MonetaryAmount.Of(depositAmount));
+        if (newBalance < Balance.MultiplyByPercent(new Percent(10)))
+            throw new FluentValidation.ValidationException(
+                "You can not withdraw more than 90% of your balance in one transaction.");
+        
+        Balance = Balance.Subtract(MonetaryAmount.Of(depositAmount));
         QueueDomainEvent(new UserAccountUpdated(){ Id = Id });
     }
     

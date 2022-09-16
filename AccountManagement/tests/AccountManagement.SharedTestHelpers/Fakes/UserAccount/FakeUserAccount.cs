@@ -8,11 +8,11 @@ public class FakeUserAccount
 {
     public static UserAccount Generate(UserAccountForCreationDto userAccountForCreationDto)
     {
-        return UserAccount.Create(userAccountForCreationDto);
+        return UserAccount.Open(userAccountForCreationDto);
     }
 
     public static UserAccount Generate()
     {
-        return UserAccount.Create(new FakeUserAccountForCreationDto().Generate());
+        return UserAccount.Open(new FakeUserAccountForCreationDto().Generate());
     }
 }
