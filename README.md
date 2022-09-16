@@ -29,6 +29,8 @@ To use the api:
    3. Run `dotnet ef database update` to apply your migrations.
 4. From the `AccountManagement/src/AccountManagement` directory, run the api: `dotnet run`
 5. Go to  `https://localhost:5375/swagger/index.html` to use swagger
+6. To hit protected endpoints, login with `alice` for username and password or register a new user.
+  1. Note that the first user you log in as will be made a super admin and other users won't be able to perform actions unless you give them a super admin role or a user role. If the latter you'll need to add permissions to the `rolepermissions` table.
 
 ## Tests
 > **Note** 
