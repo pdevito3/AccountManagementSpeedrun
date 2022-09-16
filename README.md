@@ -32,7 +32,7 @@ To use the api:
 
 ## Tests
 > **Note** 
-> The value object broke a most of the assoicated functional tests and a unit test. TODO investigation
+> The value object broke a most of the associated functional tests and a unit test. TODO investigation
 
 ## Running Integration Tests
 Make sure you have docker installed to run integration tests.
