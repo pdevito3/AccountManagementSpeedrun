@@ -1,0 +1,33 @@
+namespace AccountManagement.IntegrationTests.FeatureTests.UserAccounts;
+
+using AccountManagement.SharedTestHelpers.Fakes.UserAccount;
+using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System.Threading.Tasks;
+using AccountManagement.Domain.UserAccounts.Features;
+using static TestFixture;
+using SharedKernel.Exceptions;
+using AccountManagement.SharedTestHelpers.Fakes.User;
+
+public class AddUserAccountCommandTests : TestBase
+{
+    [Test]
+    public async Task can_add_new_useraccount_to_db()
+    {
+        // Arrange
+        var fakeUserAccountOne = new FakeUserAccountForCreationDto().Generate();
+
+        // Act
+        var command = new AddUserAccount.Command(fakeUserAccountOne);
+        var userAccountReturned = await SendAsync(command);
+        var userAccountCreated = await ExecuteDbContextAsync(db => db.UserAccounts
+            .FirstOrDefaultAsync(u => u.Id == userAccountReturned.Id));
+
+        // Assert
+        userAccountReturned.Should().BeEquivalentTo(fakeUserAccountOne, options =>
+            options.ExcludingMissingMembers());
+        userAccountCreated.Should().BeEquivalentTo(fakeUserAccountOne, options =>
+            options.ExcludingMissingMembers());
+    }
+}
